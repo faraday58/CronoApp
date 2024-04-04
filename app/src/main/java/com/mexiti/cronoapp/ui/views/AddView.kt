@@ -23,13 +23,15 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.mexiti.cronoapp.R
 import com.mexiti.cronoapp.ui.components.CircleButton
 import com.mexiti.cronoapp.ui.components.MainIconButton
 import com.mexiti.cronoapp.ui.components.MainTitle
 
 @Composable
-fun ContentAddView(it:PaddingValues){
+fun ContentAddView(it:PaddingValues,
+                   navController: NavController){
     Column(
         modifier = Modifier
             .padding(it)
@@ -75,7 +77,7 @@ fun ContentAddView(it:PaddingValues){
 //AddView(navController:  navegación entre vistas)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AddView(){
+fun AddView(navController: NavController){
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(
@@ -85,19 +87,19 @@ fun AddView(){
                 ),
                 navigationIcon = {
                     MainIconButton(icon = Icons.Default.ArrowBack) {
-                        //navController.popBackStack()
+                        navController.popBackStack()
                     }
                 }
             )
             
         }
     ) {
-        ContentAddView(it = it)
+        ContentAddView(it = it, navController = navController)
     }
 }
 
 @Preview
 @Composable
 fun AddViewPreview(){
-    AddView()
+    //AddView()
 }

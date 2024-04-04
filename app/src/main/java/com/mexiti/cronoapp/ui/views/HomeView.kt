@@ -13,14 +13,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavController
 import com.mexiti.cronoapp.R
 import com.mexiti.cronoapp.ui.components.FloatButton
 import com.mexiti.cronoapp.ui.components.MainTitle
-
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeView(){
+fun HomeView(navController: NavController){
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(title = { MainTitle(title = stringResource(id = R.string.app_name)) },
@@ -32,16 +31,19 @@ fun HomeView(){
         },
         floatingActionButton = {
             FloatButton {
+                navController.navigate("AddView")
 
             }
         }
     ) {
-            ContentHomeView(it = it)
+            ContentHomeView( it = it, navController)
     }
 }
 
 @Composable
-fun ContentHomeView(it: PaddingValues){
+fun ContentHomeView(it: PaddingValues,
+                    navController: NavController
+){
     Column(
         modifier = Modifier.padding(it)
     ) {
@@ -62,5 +64,5 @@ fun ContentHomeView(it: PaddingValues){
 @Preview
 @Composable
 fun HomeViewPreview(){
-    HomeView()
+   // HomeView()
 }
