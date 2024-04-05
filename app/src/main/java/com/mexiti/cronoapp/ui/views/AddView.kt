@@ -15,6 +15,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -28,10 +29,19 @@ import com.mexiti.cronoapp.R
 import com.mexiti.cronoapp.ui.components.CircleButton
 import com.mexiti.cronoapp.ui.components.MainIconButton
 import com.mexiti.cronoapp.ui.components.MainTitle
+import com.mexiti.cronoapp.viewmodel.CronometroViewModel
+import com.mexiti.cronoapp.viewmodel.DataViewModel
 
 @Composable
 fun ContentAddView(it:PaddingValues,
-                   navController: NavController){
+                   navController: NavController,
+                   cronometroVM: CronometroViewModel,
+                   dataVM: DataViewModel
+                   ){
+    val state = cronometroVM.state
+    LaunchedEffect(key1 = state.cronometroActivo ){
+        cronometroVM.cronos()
+    }
     Column(
         modifier = Modifier
             .padding(it)
