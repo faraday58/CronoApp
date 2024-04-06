@@ -56,25 +56,34 @@ fun ContentAddView(it:PaddingValues,
         Row(horizontalArrangement = Arrangement.Center,
             modifier = Modifier.padding(vertical = 16.dp)
             ) {
-            CircleButton(icon = painterResource(id = R.drawable.play_arrow_24)
+            CircleButton(icon = painterResource(id = R.drawable.play_arrow_24),
                     //Enable Cronom State
+                enabled = !state.cronometroActivo
             ) {
                 //Start cronomVM.iniciar()
+                cronometroVM.iniciar()
             }
-            CircleButton(icon = painterResource(id = R.drawable.pause_24)
+            CircleButton(icon = painterResource(id = R.drawable.pause_24),
                     //State pause
+                enabled = state.cronometroActivo
             ) {
                 //Start cronomVM.pausar()
+                cronometroVM.pausar()
             }
-            CircleButton(icon = painterResource(id = R.drawable.stop_24)
+            CircleButton(icon = painterResource(id = R.drawable.stop_24),
                     // State inactivo
+                enabled = !state.cronometroActivo
+
             ) {
                 //Start cronomVM.detener()
+                cronometroVM.detener()
             }
-            CircleButton(icon = painterResource(id = R.drawable.save_24)
+            CircleButton(icon = painterResource(id = R.drawable.save_24),
                     //state Save
+                    enabled = state.showSaveButton
             ) {
                 //Start cronomVM.showTextField()
+                cronometroVM.showTextField()
             }
         }
         /*
@@ -87,7 +96,10 @@ fun ContentAddView(it:PaddingValues,
 //AddView(navController:  navegación entre vistas)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AddView(navController: NavController){
+fun AddView(navController: NavController,
+            cronometroVM: CronometroViewModel,
+            dataVM: DataViewModel
+            ){
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(
@@ -104,7 +116,7 @@ fun AddView(navController: NavController){
             
         }
     ) {
-        ContentAddView(it = it, navController = navController)
+        ContentAddView(it = it, navController = navController,cronometroVM,dataVM)
     }
 }
 

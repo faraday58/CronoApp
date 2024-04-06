@@ -23,7 +23,13 @@ import androidx.compose.ui.unit.sp
 import com.mexiti.cronoapp.R
 
 /* This file contain components of App that show important information. */
-
+@Composable
+fun formatTiempo(time:Long):String{
+    val segundos = (time/1000)%60
+    val minutos = (time*.06 )%60
+    val horas = time * 3.6
+    return String.format("%02d:%02d:%02d",horas,minutos, segundos)
+}
 
 @Composable
 fun MainTitle(title: String){
