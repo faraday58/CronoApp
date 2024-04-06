@@ -29,6 +29,7 @@ import com.mexiti.cronoapp.R
 import com.mexiti.cronoapp.ui.components.CircleButton
 import com.mexiti.cronoapp.ui.components.MainIconButton
 import com.mexiti.cronoapp.ui.components.MainTitle
+import com.mexiti.cronoapp.ui.components.formatTiempo
 import com.mexiti.cronoapp.viewmodel.CronometroViewModel
 import com.mexiti.cronoapp.viewmodel.DataViewModel
 
@@ -50,7 +51,7 @@ fun ContentAddView(it:PaddingValues,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
-        Text(text = "00:00:00",
+        Text(text = formatTiempo(time = cronometroVM.time),
             fontSize = 50.sp,
             fontWeight = FontWeight.Bold)
         Row(horizontalArrangement = Arrangement.Center,
