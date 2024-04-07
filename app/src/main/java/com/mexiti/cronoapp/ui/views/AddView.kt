@@ -37,7 +37,6 @@ import com.mexiti.cronoapp.viewmodel.DataViewModel
 fun ContentAddView(it:PaddingValues,
                    navController: NavController,
                    cronometroVM: CronometroViewModel,
-                   dataVM: DataViewModel
                    ){
     val state = cronometroVM.state
     LaunchedEffect(key1 = state.cronometroActivo ){
@@ -98,8 +97,7 @@ fun ContentAddView(it:PaddingValues,
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddView(navController: NavController,
-            cronometroVM: CronometroViewModel,
-            dataVM: DataViewModel
+            cronometroVM: CronometroViewModel
             ){
     Scaffold(
         topBar = {
@@ -117,7 +115,7 @@ fun AddView(navController: NavController,
             
         }
     ) {
-        ContentAddView(it = it, navController = navController,cronometroVM,dataVM)
+        ContentAddView(it = it, navController = navController,cronometroVM)
     }
 }
 

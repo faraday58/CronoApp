@@ -10,14 +10,14 @@ import com.mexiti.cronoapp.viewmodel.CronometroViewModel
 import com.mexiti.cronoapp.viewmodel.DataViewModel
 
 @Composable
-fun NavManager(cronomeVM:CronometroViewModel, dataViewModel: DataViewModel  ) {
+fun NavManager(cronometroVM:CronometroViewModel ) {
     val navController = rememberNavController()
     NavHost(navController = navController, startDestination = "Home") {
         composable("Home") {
             HomeView(navController)
         }
         composable("AddView") {
-            AddView(navController,cronomeVM,dataViewModel)
+            AddView(navController,cronometroVM)
         }
 
     }

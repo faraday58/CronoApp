@@ -80,7 +80,7 @@ class CronometroViewModel @Inject constructor(
             cronoJob = viewModelScope.launch {
                 while (true){
                     delay(50)
-                    time += 1000
+                    time += 1
                 }
             }
         }else{

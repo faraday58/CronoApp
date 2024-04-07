@@ -6,7 +6,6 @@ import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import com.mexiti.cronoapp.navigation.NavManager
 import com.mexiti.cronoapp.viewmodel.CronometroViewModel
-import com.mexiti.cronoapp.viewmodel.DataViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -15,9 +14,8 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val cronometroVM:CronometroViewModel by viewModels()
-        val dataViewModel:DataViewModel by viewModels()
         setContent {
-                NavManager(cronometroVM, dataViewModel)
+                NavManager(cronometroVM)
         }
     }
 }
