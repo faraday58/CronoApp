@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material3.Button
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
@@ -26,8 +27,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.mexiti.cronoapp.R
+import com.mexiti.cronoapp.model.Cronos
 import com.mexiti.cronoapp.ui.components.CircleButton
 import com.mexiti.cronoapp.ui.components.MainIconButton
+import com.mexiti.cronoapp.ui.components.MainTextField
 import com.mexiti.cronoapp.ui.components.MainTitle
 import com.mexiti.cronoapp.ui.components.formatTiempo
 import com.mexiti.cronoapp.viewmodel.CronometroViewModel
@@ -37,6 +40,7 @@ import com.mexiti.cronoapp.viewmodel.DataViewModel
 fun ContentAddView(it:PaddingValues,
                    navController: NavController,
                    cronometroVM: CronometroViewModel,
+                   dataVM:DataViewModel
                    ){
     val state = cronometroVM.state
     LaunchedEffect(key1 = state.cronometroActivo ){
@@ -87,9 +91,27 @@ fun ContentAddView(it:PaddingValues,
             }
         }
         /*
-
             Code to Save time if state.showTextField
          */
+        if( state.showTextField){
+            MainTextField(value = state.title,
+                onValueChange = {cronometroVM.onValue(it)}  ,
+                label = "Title")
+
+            Button(onClick = {
+                dataVM.addCrono(
+                    Cronos(title = state.title,
+                        crono = cronometroVM.time
+                        )
+                )
+                cronometroVM.detener()
+                navController.popBackStack()
+            }) {
+                    Text(text = "Guardar")
+            }
+
+        }
+
     }
 
 }
@@ -97,7 +119,8 @@ fun ContentAddView(it:PaddingValues,
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddView(navController: NavController,
-            cronometroVM: CronometroViewModel
+            cronometroVM: CronometroViewModel,
+            dataVM: DataViewModel
             ){
     Scaffold(
         topBar = {
@@ -115,7 +138,7 @@ fun AddView(navController: NavController,
             
         }
     ) {
-        ContentAddView(it = it, navController = navController,cronometroVM)
+        ContentAddView(it = it, navController = navController,cronometroVM, dataVM )
     }
 }
 
