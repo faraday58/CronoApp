@@ -15,4 +15,60 @@ de EditView.
 
 La función ContenEditView también debe recibir como parámetro _it_ para separar los PaddingValues. En el cuerpo de la función
 también agrega un variable llamada _state_ que almacene el estado del cronómetro si se encuentra activo. Mediante la función _LaunchedEffect_
-lanza la corrutina _cronos()_ de acuerdo al estado del cronómetro. Agrega un segundo  _LaunchedEffect_ que obtenga el 
+lanza la corrutina _cronos()_ de acuerdo al estado del cronómetro. Agrega un segundo  _LaunchedEffect_ que obtenga el título y el tiempo 
+cronometrado.
+
+```
+@Composable
+fun ContentEditView(it: PaddingValues,
+                    navController: NavController,
+                    cronometroVM: CronometroViewModel,
+                    dataVM: DataViewModel,
+                    id: Long) {
+
+    val state = cronometroVM.state
+    LaunchedEffect(key1 = state.cronometroActivo ){
+            cronometroVM.cronos()
+    }
+
+    LaunchedEffect(key1 = Unit){
+        cronometroVM.getCronoById(id)
+    }
+```
+Los elementos componibles en _ContentEditView_ deben de ser solamente el _Tiempo_, el _botón play_, el _botón de pause_, el _título_ y por último
+el botón de _guardar cambios_ tal y como se muestra en el ejemplo de la vista. <br>
+
+<p align="center">
+<img width="332" alt="Captura de pantalla 2024-04-08 a la(s) 10 09 08 p m" src="https://github.com/faraday58/CronoApp/assets/18446145/58701635-8b78-41f8-8eb7-6606c48422b5">      
+</p>
+
+Para mostrar el botón de guardar cambios, agregalo dentro de MainTextField. En el argumento onClick invoca a través del viewModel correspondiente la actualización
+de los datos. En el código se muestra un ejemplo del contenido de onClick en la ejecuión del botón _Guardar_ . 
+
+
+```
+onClick = {
+            dataVM.updateCrono(
+                Cronos(id = id,
+                    title = state.title,
+                    crono = cronometroVM.time
+                    )
+            )
+        }
+```
+
+Finalmente para esta función _EditView_ agrega el código Dispose para detener el cronómetro después de guardar los cambios y regresar a la pantalla **HomeView**.
+
+
+```
+DisposableEffect(Unit ){
+
+            onDispose {
+                cronometroVM.detener()
+
+            }
+        }
+
+```
+
+
