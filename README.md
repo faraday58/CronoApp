@@ -364,3 +364,13 @@ fun NavManager(cronometroVM:CronometroViewModel,dataVM:DataViewModel ) {
 }
 
 ```
+
+#Final del Ejercicio
+
+Como evidencia de funcionamiento graba un video o suficientes capturas de imágenes que demuestren el funcionamiento de la App
+1. Agrega un nuevo Registro
+2. Modificar Registro
+3. Eliminar Registro
+
+Finalmente realiza comentarios y conclusiones de la actividad.
+   
