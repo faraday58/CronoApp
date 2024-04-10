@@ -1,4 +1,4 @@
-# Instrucciones para implementar las operaciones de básicas de Room para esta aplicación
+ # Instrucciones para implementar las operaciones de básicas de Room para esta aplicación
 Seguir las instrucciones para lograr modificar los registros de tiempos almacenados así como
 eliminarlos según sea el caso.
 
@@ -289,5 +289,78 @@ El código deberá tener la siguiente estructura:
             }
 ```
 
+Finalmente  agrega a **HomeView**  el parámetro _dataVM:DataViewModel_ y asígnalo a _ContentHomeView_. El código deberá tener la estructura 
+similar a la mostrada.
+
+
+```kotlin
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun HomeView(navController: NavController, dataVM:DataViewModel){
+    Scaffold(
+        topBar = {
+            CenterAlignedTopAppBar(title = { MainTitle(title = stringResource(id = R.string.app_name)) },
+                colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.primary
+                )
+            )
+
+        },
+        floatingActionButton = {
+            FloatButton {
+                navController.navigate("AddView")
+
+            }
+        }
+    ) {
+            ContentHomeView( it = it, navController, dataVM )
+    }
+}
+
+```
+
+
   
 ## Edita archivo NavManager
+
+Para finalizar el ejercicio agrega una nueva ruta _composable_ que contenga como argumento _"EditView{id}"_ con la finalidad de pasar el parámetro el _id_ 
+del elemento a editar. Definir también el número de parámetros que se envían a **EditView** así como el tipo de dato.
+
+
+```kotlin
+  composable("EditView/{id}",
+            arguments = listOf(
+                navArgument("id"){type = NavType.LongType}
+            )){
+         //Código de validación
+        }
+```
+
+Finalmente valida la navegación cuando se presione el botón de back sin realizar un cambio en el registro y asignale el valor de cero. Invoca a la 
+función **EditView**  con los parámetros _navController_, _cronometroVM_ ,_dataVM_ y el _id_. El código deberá de tener la siguiente estructura:
+
+```kotlin
+@Composable
+fun NavManager(cronometroVM:CronometroViewModel,dataVM:DataViewModel ) {
+    val navController = rememberNavController()
+    NavHost(navController = navController, startDestination = "Home") {
+        composable("Home") {
+            HomeView(navController,dataVM)
+        }
+        composable("AddView") {
+            AddView(navController,cronometroVM, dataVM)
+        }
+        composable("EditView/{id}",
+            arguments = listOf(
+                navArgument("id"){type = NavType.LongType}
+            )){
+            val id = it.arguments?.getLong("id") ?:0
+            EditView(navController = navController,
+                cronometroVM =cronometroVM , dataVM = dataVM, id =id )
+
+        }
+
+    }
+}
+
+```
