@@ -211,5 +211,83 @@ fun ContentEditView(it: PaddingValues,
 ```
 
 ## Edita archivo HomeView para mostrar los tiempos registrados
+En esta sección se deben desplegar todos los registros almacenados en las base de datos, además es donde se deben poder eliminar al realizar
+un gesto de desplazamiento horizontal. Por lo cual, agrega una librería que permita implementar dicho movimiento. <br />
 
+
+Agrega la librería Swipe dentro del **build.gradle.kts**  
+
+```kotlin
+    // Swipe
+    implementation( "me.saket.swipe:swipe:1.1.1")
+```
+
+Ahora, dentro del **DataViewModel**  agrega una variable llamada _cronoList_ y asignale  _ _cronolist.asStateFlow()_  entre el constructor de DataViewModel y 
+la función _init_. A continuación se muestra cómo debería de verse el código.
+
+`val cronolist = _cronolist.asStateFlow()`
+
+### Modifica el ContentHomeView
+
+Comienza por declarar una variable _dataList_ que asigne la colección correspondiente al DataViewModel previo a la función
+_LazyColumn_. El código deberá tener la siguiente estructura
+
+```kotlin
+Column(
+        modifier = Modifier.padding(it)
+    ) {
+        val dataList by dataVM.cronoList.collectAsState()
+        LazyColumn{
+            /*
+       Show a collection about timing
+        */
+       }
+```
+Agrega la función **Items** que reciba como argumento a _dataList_ . Ahora fija a _item_ como condición para conservar siempre la funcionalidad
+de eliminar asignando a una variable llamada _delete_  y asignale la función _SwipeAction_ que se encargará de realizar la acción de eliminar
+a través del atributo _onSwipe_. El código deberá de tener la siguiente distribución:
+
+```kotlin
+  LazyColumn{
+            /*
+       Show a collection about timing
+        */
+            items(dataList){
+               item ->
+                val delete = SwipeAction(
+                    icon = rememberVectorPainter(image = Icons.Default.Delete),
+                    background = Color.Red,
+                    onSwipe = {
+                        dataVM.deleteCrono(item)
+                    }
+                )
+           }
+
+```
+
+Como segunda función agrega _SwipeableActionBox_ que refresque los elementos a mostrar después de ser eliminados. También se debe de encargar
+de realizar el despliegue una CronCard y si se presiona debe de navegar hacia **EditView** pasando como parámetro el elemento al cual se hace referencia.
+El código deberá tener la siguiente estructura:
+
+
+```kotlin
+ items(dataList){
+               item ->
+              //Código de SwipeAction
+                
+                SwipeableActionsBox(
+                    startActions = listOf(delete),
+                    swipeThreshold = 150.dp
+                ) {
+                    CronCard(title = item.title,
+                        crono = formatTiempo(time = item.crono)
+                    ) {
+                        navController.navigate("EditView/${item.id}")
+                    }
+
+                }
+            }
+```
+
+  
 ## Edita archivo NavManager
